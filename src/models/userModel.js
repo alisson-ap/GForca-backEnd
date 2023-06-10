@@ -3,4 +3,11 @@ const getId = (user) => {
     return id;
 }
 
-module.exports = { getId };
+const getUser = (user) =>{
+    const data = {
+        userId: user,
+    }
+    return data;
+}
+
+module.exports = { getId, getUser};

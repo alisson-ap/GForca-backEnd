@@ -1,7 +1,14 @@
-const getNivel = (nivel) => {
+const postNivel = (nivel) => {
     console.log(nivel);
     const { nivelUser } = nivel;
     return nivelUser;
 }
 
-module.exports = {getNivel}
+const getNivel = (nivel)=>{
+    const data = {
+        nivelRoom: nivel,
+    }
+    return data;
+}
+
+module.exports = {postNivel, getNivel}

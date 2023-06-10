@@ -2,6 +2,7 @@ const express = require('express');
 const tasksController = require('./controllers/taskController');
 const userController = require('./controllers/userController');
 const nivelController = require('./controllers/nivelController');
+const partidaController = require('./controllers/partidaController');
 const session = require('express-session');
 
 const router = express.Router();
@@ -9,8 +10,12 @@ const router = express.Router();
 router.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
+  saveUninitialized: false,
+  cookie: {
+    secure: false,
+    maxAge: 1000 * 60 * 30,
+    sameSite: true,
+  }
 }));
 
 router.get('/tasks', tasksController.getAll);
@@ -18,15 +23,14 @@ router.post('/tasks', tasksController.createTask);
 
 //User
 router.post('/user', userController.userSession);
+router.get('/user', userController.getUser);
 
-router.post('/nivel', nivelController.getNivel)
+//Nivel
+router.post('/nivel', nivelController.postNivel);
+router.get('/nivel', nivelController.getNivel);
 
-// router.get('/', (req,res)=>{
-//   if(req.session.valor == null){
-//     res.send("Sem valor na sessão")
-//   }else{
-//     res.send(req.session.valor)
-//   }
-// });
+//partida
+router.post('/partida', partidaController.postPartida);
+
 
 module.exports = router;
