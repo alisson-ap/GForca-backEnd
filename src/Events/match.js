@@ -1,3 +1,5 @@
+const partidaController = require('../controllers/partidaController');
+
 const rooms = [];
 
 const createRoom = (nivel) => {
@@ -53,23 +55,14 @@ function checkPlayersReady(room) {
     return false;
 }
 
-
 module.exports = (socket) => {
-    socket.on('sendMessage', (message) => {
-        console.log(message);
-    });
-
     socket.on('create-room', (player) => {
         const { userId, nivel } = player;
-
-        console.log("Usuário e nível " + userId + " " + nivel);
 
         const avaibleRoom = rooms.find((r) => r.sockets.length < 2);
         if (avaibleRoom) {
             joinRoom(avaibleRoom, socket, userId);
             console.log(rooms);
-            // console.log(rooms[0].player1);
-            // console.log(rooms[0].player2);
 
         } else {
             const newRoom = createRoom(nivel);
@@ -84,16 +77,19 @@ module.exports = (socket) => {
         changeReadyState(room, player.player);
 
         if (checkPlayersReady(room)) {
-            console.log("os dois jogadores prontos");
+            partidaController.postPartida(room);
             socket.to(room.id).emit('checkReady', (player));
-            socket.to(room.id).emit("redirect");
-            socket.emit("redirect", ("redirect"));
-
+            socket.to(room.id).emit("redirect", (room.id));
+            socket.emit("redirect", (room.id));
 
         } else {
             console.log("está pronto o outro player");
             socket.to(room.id).emit('checkReady', (player));
         }
+    });
+
+    socket.on("words", (word) => {
+        partidaController.postPalavra(word);
     });
 
     socket.on('disconnect', () => {
@@ -105,3 +101,4 @@ module.exports = (socket) => {
         }
     });
 }
+

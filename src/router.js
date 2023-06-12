@@ -31,6 +31,7 @@ router.get('/nivel', nivelController.getNivel);
 
 //partida
 router.post('/partida', partidaController.postPartida);
+router.get('/partida/:id', partidaController.getPartidas)
 
 
 module.exports = router;

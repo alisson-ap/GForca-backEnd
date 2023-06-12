@@ -11,11 +11,13 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
   console.log(socket.id)
+
   require('./Events/match')(socket);
+  require('./Events/versus')(socket);
 });
 
 server.listen(3000, () => {
   console.log("Server running on port 3000");
 });
 
-module.exports ={io};
+module.exports = { io };

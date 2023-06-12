@@ -1,17 +1,21 @@
 const partidas = [];
 
-const partida = {
-    id:0,
-    sockets: [],
-    nivelRoom: 0,
-    player1: [],
-    player2: []
+const postPartida = (players) => {
+    partidas.push(players);
 }
 
-const postPartida = (players)=>{
-    console.log(players);
+const getPartidas = (id) => {
+    const partida = partidas.find(partida => partida.id === id || partida.id === id);
+    return partida;
 }
 
-module.exports ={
-    postPartida
+const postPalavra = (word) =>{
+    const partida = partidas.find(partida => partida.id === word.roomId || partida.id === word.roomId);
+    partida.randomWord =  word.randomWord;
+}   
+
+module.exports = {
+    postPartida,
+    getPartidas,
+    postPalavra
 }
