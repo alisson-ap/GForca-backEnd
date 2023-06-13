@@ -58,10 +58,7 @@ function checkPlayersReady(room) {
 module.exports = (socket) => {
     socket.on('create-room', (player) => {
         const { userId, nivel } = player;
-
         const avaibleRoom = rooms.find((r) => r.sockets.length < 2 && nivel == r.nivelRoom);
-        console.log("sala disponivel");
-        console.log(avaibleRoom);
         if (avaibleRoom) {
             joinRoom(avaibleRoom, socket, userId);
             console.log(rooms);
